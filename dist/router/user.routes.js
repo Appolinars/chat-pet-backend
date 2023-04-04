@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.userRoutes = void 0;
+const user_controller_1 = require("../controllers/user.controller");
+const validations_1 = require("../validations");
+const user_validation_1 = require("../validations/user.validation");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const multer_1 = require("../config/multer");
+const upload_controller_1 = require("../controllers/upload.controller");
+const userRoutes = (router) => {
+    router.post('/user/register', (0, user_validation_1.registerValidationRules)(), validations_1.validateBody, user_controller_1.registerUser);
+    router.post('/user/login', (0, user_validation_1.loginValidationRules)(), validations_1.validateBody, user_controller_1.login);
+    router.get('/user/refresh', user_controller_1.refresh);
+    router.post('/user/logout', user_controller_1.logout);
+    router.patch('/user/update', auth_middleware_1.authMiddleware, (0, user_validation_1.updateValidationRules)(), validations_1.validateBody, user_controller_1.updateUser);
+    router.get('/user/getAll', auth_middleware_1.authMiddleware, user_controller_1.getAllUsers);
+    router.post('/file/upload', multer_1.multerUploader.single('image'), upload_controller_1.uploadFile);
+    router.delete('/file/delete', upload_controller_1.deleteFile);
+};
+exports.userRoutes = userRoutes;
