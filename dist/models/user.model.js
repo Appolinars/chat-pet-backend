@@ -23,6 +23,6 @@ const userSchema = new mongoose_1.Schema({
     },
     __v: { type: Number, select: false },
 }, {
-    timestamps: true,
+    timestamps: false,
 });
 exports.UserModel = (0, mongoose_1.model)('User', userSchema);

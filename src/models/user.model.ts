@@ -35,7 +35,7 @@ const userSchema = new Schema<IUser>(
     __v: { type: Number, select: false },
   },
   {
-    timestamps: true,
+    timestamps: false,
   }
 );
 

@@ -1,4 +1,3 @@
-import cloudinary from '../config/cloudinary';
 import { UserDto } from '../dtos/user.dto';
 import { ApiError } from '../exceptions/api-error';
 import { UserModel } from '../models/user.model';
