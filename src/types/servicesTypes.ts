@@ -1,5 +1,5 @@
 import { UserDto } from '../dtos/user.dto';
-import { IAvatar } from './user';
+import { IMessage } from '../models/message.model';
 
 interface IAuthPayload {
   username?: string;
@@ -26,5 +26,16 @@ export interface IUserService {
   refresh(refreshToken: string): Promise<IUserResponse>;
   logout(refreshToken: string): Promise<unknown>;
   update(id: string, { username, email, avatar }: IUpdatePayload): Promise<UserDto>;
-  getAll(): Promise<any>;
+  getAll(): Promise<UserDto[]>;
+}
+
+interface IMessagePayload {
+  chatId: string;
+  userId: string;
+  content: string;
+}
+
+export interface IMessageService {
+  getAll(chatId: string): Promise<IMessage[]>;
+  send({ chatId, userId, content }: IMessagePayload): Promise<IMessage>;
 }

@@ -14,25 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllChats = exports.createChat = void 0;
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
-const chat_model_1 = require("../models/chat.model");
+const chat_service_1 = require("../services/chat.service");
 exports.createChat = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { partnerId } = req.body;
-    const userId = (_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id;
-    const chatData = {
-        isGroupChat: false,
-        users: [userId, partnerId],
-    };
-    const createdChat = yield chat_model_1.ChatModel.create(chatData);
-    const fullChat = yield createdChat.populate('users', 'username avatar');
-    res.json(fullChat);
+    const userId = ((_a = req === null || req === void 0 ? void 0 : req.user) === null || _a === void 0 ? void 0 : _a.id) || '';
+    const chat = chat_service_1.chatService.create(userId, partnerId);
+    res.json(chat);
 }));
 exports.getAllChats = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _b;
-    const userId = (_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b.id;
-    const chats = yield chat_model_1.ChatModel.find({ users: { $elemMatch: { $eq: userId } } })
-        .populate('users', 'username avatar')
-        .populate('latestMessage')
-        .sort({ updatedAt: -1 });
+    const userId = ((_b = req === null || req === void 0 ? void 0 : req.user) === null || _b === void 0 ? void 0 : _b.id) || '';
+    const chats = yield chat_service_1.chatService.getAll(userId);
     res.json(chats);
 }));

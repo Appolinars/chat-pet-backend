@@ -13,8 +13,8 @@ exports.connectDB = void 0;
 const mongoose_1 = require("mongoose");
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const conn = yield (0, mongoose_1.connect)(process.env.MONGO_URI);
-        console.log(`MongoDB connected: ${conn.connection.host}`);
+        yield (0, mongoose_1.connect)(process.env.MONGO_URI);
+        console.log(`MongoDB connected`);
     }
     catch (error) {
         console.log(error);
