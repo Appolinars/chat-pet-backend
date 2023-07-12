@@ -4,6 +4,15 @@ const usersPopulateSelect = 'username avatar';
 
 export const chatService = {
   async create(userId: string, partnerId: string) {
+    const existingChat = await ChatModel.findOne({
+      users: { $all: [userId, partnerId] },
+      isGroupChat: false,
+    });
+
+    if (existingChat) {
+      return existingChat;
+    }
+
     const chatData = {
       isGroupChat: false,
       users: [userId, partnerId],
@@ -12,6 +21,16 @@ export const chatService = {
     const createdChat = await ChatModel.create(chatData);
     const chat = await createdChat.populate('users', usersPopulateSelect);
 
+    return chat;
+  },
+
+  async getChat(chatId: string) {
+    const chat = await ChatModel.findById(chatId)
+      .populate('users', usersPopulateSelect)
+      .populate({
+        path: 'latestMessage',
+        populate: { path: 'sender', select: usersPopulateSelect },
+      });
     return chat;
   },
 

@@ -26,4 +26,10 @@ export const messageService: IMessageService = {
 
     return message;
   },
+
+  async delete(messageId: string) {
+    const deletedMessage = await MessageModel.findByIdAndDelete(messageId);
+
+    return deletedMessage?.id;
+  },
 };

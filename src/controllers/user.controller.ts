@@ -1,6 +1,7 @@
 import { userService } from '../services/user.service';
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
+import { onlineUsers } from '../server';
 
 const cookiesAge = 30 * 24 * 60 * 60 * 1000; // 30 days
 
@@ -60,4 +61,9 @@ export const updateUser = asyncHandler(async (req, res) => {
 export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
   const users = await userService.getAll();
   res.json(users);
+});
+
+export const getOnlineUsers = asyncHandler(async (req: Request, res: Response) => {
+  const onlineUsersArray = Array.from(onlineUsers.values());
+  res.json(onlineUsersArray);
 });

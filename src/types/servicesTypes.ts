@@ -38,4 +38,5 @@ interface IMessagePayload {
 export interface IMessageService {
   getAll(chatId: string): Promise<IMessage[]>;
   send({ chatId, userId, content }: IMessagePayload): Promise<IMessage>;
+  delete(messageId: string): Promise<string>;
 }

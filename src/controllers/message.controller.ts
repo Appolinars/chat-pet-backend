@@ -11,7 +11,14 @@ export const sendMessage = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const getAllMessages = asyncHandler(async (req: Request, res: Response) => {
-  const { chatId } = req.body;
+  const chatId = req.params.id;
   const messages = await messageService.getAll(chatId);
   res.json(messages);
+});
+
+export const deleteMessage = asyncHandler(async (req: Request, res: Response) => {
+  const { messageId } = req.body;
+
+  const deletedId = await messageService.delete(messageId);
+  res.json({ deletedId });
 });

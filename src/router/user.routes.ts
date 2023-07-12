@@ -1,14 +1,13 @@
 import {
   getAllUsers,
+  getOnlineUsers,
   login,
   logout,
   refresh,
   registerUser,
   updateUser,
 } from '../controllers/user.controller';
-import {
-  validateBody,
-} from '../validations';
+import { validateBody } from '../validations';
 import {
   loginValidationRules,
   registerValidationRules,
@@ -24,11 +23,12 @@ export const userRoutes = (router: Router) => {
   router.post('/user/login', loginValidationRules(), validateBody, login);
   router.get('/user/refresh', refresh);
   router.post('/user/logout', logout);
-  
+
   router.patch('/user/update', authMiddleware, updateValidationRules(), validateBody, updateUser);
-  
+
   router.get('/user/getAll', authMiddleware, getAllUsers);
-  
+  router.get('/user/getOnlineUsers', authMiddleware, getOnlineUsers);
+
   router.post('/file/upload', multerUploader.single('image'), uploadFile);
   router.delete('/file/delete', deleteFile);
 };
